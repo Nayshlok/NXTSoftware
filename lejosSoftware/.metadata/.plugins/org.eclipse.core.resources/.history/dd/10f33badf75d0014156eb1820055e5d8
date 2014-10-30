@@ -1,0 +1,9 @@
+package testAccel;
+
+public class Acceleration {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

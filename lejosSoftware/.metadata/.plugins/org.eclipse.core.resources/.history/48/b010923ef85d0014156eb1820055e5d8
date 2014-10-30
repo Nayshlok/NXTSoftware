@@ -1,0 +1,25 @@
+package testAccel;
+
+import StartStopListener;
+import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
+import lejos.robotics.RegulatedMotor;
+
+public class Acceleration {
+
+	public static void main(String[] args){
+		Acceleration world = new Acceleration();
+		world.run();
+	}
+	
+	private boolean wheelRunning = true;
+	
+	public void run(){
+		SensorPort.S1.addSensorPortListener(new StartStopListener());
+		SensorPort.S1.setListenerTolerance(500);
+		RegulatedMotor A = Motor.A;
+		A.setAcceleration(3);
+		A.rotate(360);
+	}
+
+}
