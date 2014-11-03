@@ -11,7 +11,7 @@ import lejos.nxt.SensorPortListener;
  */
 public class NXTCar{
 
-	private final int DEGREES_FOR_REVOLUTION = 1090;
+	private final int DEGREES_FOR_REVOLUTION = 1100;
 	
     private NXTRegulatedMotor left = Motor.B,
             right = Motor.C;
@@ -67,7 +67,7 @@ public class NXTCar{
     	else if(Math.abs(toTurn) > 180 && toTurn > 0){
     		toTurn = Math.abs(toTurn) - 360;
     	}
-    	System.out.println("Target: " + direction + ", current: " + facingDegree + ", turning: " + toTurn);
+    	//System.out.println("Target: " + direction + ", current: " + facingDegree + ", turning: " + toTurn);
     	rotate(toTurn);
     }
     
@@ -79,5 +79,9 @@ public class NXTCar{
 		//System.out.println(angle);
         right.rotate(-angle);
 		//System.out.println(-angle);
+    }
+    
+    public int getFacing(){
+    	return facingDegree;
     }
 }

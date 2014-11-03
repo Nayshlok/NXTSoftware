@@ -29,6 +29,7 @@ public class CanRemover {
 		while(pushCount < 3){
 			List<Integer> objectsInRange = fullCircleSearch();
 			if(!objectsInRange.isEmpty()){
+				bluetooth.sendMessage("Object at " + objectsInRange.get(0) + "/n");
 				car.faceDirection(objectsInRange.get(0));
 				startLightSensor();
 				while(!crossedBlackLine){
@@ -36,6 +37,7 @@ public class CanRemover {
 				}
 				if(touchSensor.isPressed()){
 					pushCount++;
+					bluetooth.sendMessage("push successful\n");
 				}
 				car.stop();
 			}
@@ -45,10 +47,10 @@ public class CanRemover {
 	public List<Integer> fullCircleSearch(){
 		List<Integer> objectsInRange = new ArrayList<>();
 		for(int i = 0; i < 12; i++){
-			car.rotate(i * 30);
-			int object = scan();
-			if(object != -1){
-				objectsInRange.add(object);
+			car.faceDirection(i * 30);
+			if(scan() != -1){
+				bluetooth.sendMessage("Object added at :" + (i*30) + "\n");
+				objectsInRange.add(i * 30);
 			}
 		}
 		return objectsInRange;
@@ -58,7 +60,14 @@ public class CanRemover {
 		ultraSonic.ping();
 		int[] distances = new int[8]; 
 		ultraSonic.getDistances(distances);
-		return (distances[0] < 40) ? distances[0] : -1;
+		StringBuilder builder = new StringBuilder(car.getFacing() + ": [");
+		for(int i : distances){
+			builder.append(i + ", ");
+		}
+		builder.append("]\n");
+		bluetooth.sendMessage(builder.toString());
+		
+		return (distances[0] < 40 && distances[0] > 1) ? distances[0] : -1;
 	}
 	
 	public void startLightSensor(){
