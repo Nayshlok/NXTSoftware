@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="classes">
+    <CLASSES>
+      <root url="jar://C:/Program Files (x86)/leJOS NXJ/lib/nxt/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://C:/Program Files (x86)/leJOS NXJ/lib/nxt/classes-src.zip!/" />
+    </SOURCES>
+  </library>
+</component>
