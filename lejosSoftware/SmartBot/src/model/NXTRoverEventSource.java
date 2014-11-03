@@ -2,8 +2,6 @@ package model;
 
 import model.parents.RoverEventListener;
 
-import javax.swing.event.EventListenerList;
-
 /**
  * Created by Stephen on 10/30/2014.
  * In project: NeumontWork

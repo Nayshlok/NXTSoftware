@@ -1,12 +1,12 @@
 package model;
 
-import java.util.EventObject;
+import model.parents.Event;
 
 /**
  * Created by Stephen on 10/30/2014.
  * In project: NeumontWork
  */
-public class RoverEvent extends EventObject
+public class RoverEvent extends Event
 {
     /**
      * Constructs a prototypical Event.

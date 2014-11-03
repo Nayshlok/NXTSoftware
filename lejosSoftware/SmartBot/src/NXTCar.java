@@ -20,7 +20,7 @@ public class NXTCar extends AbstractNXTCar implements SensorPortListener
     }
 
     /**
-     * Turn both wheels backward.
+     * Turn both wheels backward.9=
      */
     @Override
     public void reverse()

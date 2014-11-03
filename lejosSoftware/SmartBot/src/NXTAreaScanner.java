@@ -19,7 +19,7 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
     {
         for ( java.lang.Object listener : subcribers.getListenerList() )
         {
-            if ( listener.getClass().isInstance(RoverEventListener))
+            if ( listener instanceof RoverEventListener)
             {
                 ( (RoverEventListener) listener ).trashFound(listener, roverEvent);
             }

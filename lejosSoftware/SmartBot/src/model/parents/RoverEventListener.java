@@ -2,8 +2,6 @@ package model.parents;
 
 import model.RoverEvent;
 
-import java.util.EventListener;
-
 /**
  * Created by Stephen on 10/30/2014.
  * In project: NeumontWork
