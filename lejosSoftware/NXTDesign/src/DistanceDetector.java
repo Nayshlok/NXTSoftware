@@ -13,6 +13,12 @@ public class DistanceDetector {
 	private UltrasonicSensor sensor = new UltrasonicSensor(SensorPort.S3);
 	private List<DistanceListener> listeners;
 	
+	public void registerListener(DistanceListener listener){
+		/*
+		 * add listener to listeners
+		 */
+	}
+	
 	public void scan(){
 		/*
 		 Loop forever
@@ -20,8 +26,6 @@ public class DistanceDetector {
 		 	Check stored values for one that can close enough to be a can
 		 	if distance is close
 		 		Notify listeners that something was found
-		 	else no close distance
-		 		Wait 200 milliseconds
 		 */
 	}
 	

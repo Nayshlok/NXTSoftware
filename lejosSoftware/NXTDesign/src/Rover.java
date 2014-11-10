@@ -1,5 +1,5 @@
 
-public class Rover implements TimerListener{
+public class Rover implements TimerListener, FinishedMovementListener{
 
 	
 	public Rover(){
@@ -8,21 +8,20 @@ public class Rover implements TimerListener{
 		 * Create LineDetector in separate thread
 		 * Create DistanceDetector in separate thread
 		 * Create ContactDetector in separate thread
-		 *  Create RoverTimer in separate thread
-		 * Create SoundManager
+		 * Create RoverTimer in separate thread
+		 * Create RotationDetector in separate thread
+		 * Create SoundManager in separate thread
 		 * register soundManager to contactDetector and DriverListener 
+		 * register Driver to DistanceDetector, LineDetector, and RotationDetector
 		 */
 	}
 	
-	public void doCleanup(){
+	public void start(){
 		/*
-		 * The rover will tell the driver to rotate a full circle at 30 degree intervals.
-		 * wait for return
-		 * display time stored in timer
-		 * tell Sound manager to play victory tune.
+		 * The rover will tell the driver to begin turning.
 		 */
 	}
-
+	
 	@Override
 	public void timeUp() {
 		/*
@@ -31,31 +30,14 @@ public class Rover implements TimerListener{
 		 */
 		
 	}
+
+	@Override
+	public void finishedMovement() {
+		/*
+		 * Get time from timer and display it on screen
+		 * Tell sound manager to play success sound
+		 * shutdown application
+		 */
+	}
 	
-//	public void doCleanup(){
-//		/*
-//		 * The Rover will search for cans
-//		 * 
-//		 */
-//	}
-//	
-//	public void searchForCans(){
-//		/*
-//		 * while the rover has not turned a full circle
-//		 * 		the Driver will turn the robot
-//		 * 		The Distance Detector will look for a can
-//		 * 		if a can is detected
-//		 * 			The rover will store the location of the can
-//		 *  The Rover will remove the nearest can
-//		 *  
-//		 */
-//	}
-//	
-//	public void removeCan(){
-//		/*
-//		 * The driver will move the rover toward the can.
-//		 * The Distance detector will ensure the distance is closing without losing the can.
-//		 * 
-//		 */
-//	}
 }

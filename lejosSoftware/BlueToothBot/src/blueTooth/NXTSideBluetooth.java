@@ -24,11 +24,8 @@ public class NXTSideBluetooth {
 	private OutputStream os;
 
 	public void run(){
-//		Motor.B.flt(true);
-//		Motor.C.flt(true);
-//		
-//		Motor.B.resetTachoCount();
-//		Motor.C.resetTachoCount();
+		Motor.B.resetTachoCount();
+		Motor.C.resetTachoCount();
 		
 		System.out.println("Start Connection");
 		connection = Bluetooth.waitForConnection();

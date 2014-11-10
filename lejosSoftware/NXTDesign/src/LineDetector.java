@@ -1,6 +1,12 @@
 
 public class LineDetector {
 
+	public void registerListener(LineListener listener){
+		/*
+		 * add lsitener to listeners
+		 */
+	}
+	
 	public void lookForLine(){
 		/*
 		 * Loop forever

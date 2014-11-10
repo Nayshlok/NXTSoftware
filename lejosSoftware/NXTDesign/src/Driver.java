@@ -1,7 +1,7 @@
 import lejos.robotics.RegulatedMotor;
 
 
-public class Driver implements DistanceListener, LineListener {
+public class Driver implements DistanceListener, LineListener, RotationListener {
 
 	private RegulatedMotor leftWheel, rightWheel;
 	
@@ -9,19 +9,22 @@ public class Driver implements DistanceListener, LineListener {
 		
 	}
 	
-	public void rotateFullCircle(int interval){
+	public void registerDriverListener(DriverListener driveListen){
 		/*
-		 * while the driver has not turned a full circle
-		 * 		The driver will turn amount passed in
-		 * 		the driver will wait 300 milliseconds
-		 * 
-		 * return to Rover for victory.
+		 * Add listener to listeners
+		 */
+	}
+	
+	public void registerFinishedListener(FinishedMovementListener finishListen){
+		/*
+		 * Add listener to listeners
 		 */
 	}
 	
 	private void forward(){
 		/*
 		 * The Driver tells two motors to go forward
+		 * yield thread loop to listen for events
 		 */
 	}
 	
@@ -29,18 +32,21 @@ public class Driver implements DistanceListener, LineListener {
 		/*
 		 * The driver tells two motors to go backward
 		 * notify listeners that it is moving backwards
+		 * yield thread loop to listen for events
 		 */
 	}
 	
 	public void stop(){
 		/*
+		 * stop motors
 		 * notify listeners that the rover has stopped.
 		 */
 	}
 	
-	private void turn(){
+	private void turnClockwise(){
 		/*
-		 * The driver tells the two motors to turn at different rates to turn the Rover
+		 * The driver tells the two motors to rotate at different rates to turn the Rover
+		 * yield thread loop to wait for events
 		 */
 	}
 
@@ -48,20 +54,29 @@ public class Driver implements DistanceListener, LineListener {
 	public void objectDetected(Object detector, int distance) {
 		// TODO Auto-generated method stub
 		/*
-		 * if direction is not stored
-		 * 	Stops the rotation and drives forward instead.
-		 * else direction is not stored
-		 * 	do nothing
+		 * Stop rotation.
+		 * Move forward
 		 */
 	}
 
 	@Override
 	public void lineDetected() {
-		// TODO Auto-generated method stub
 		/*
-		 * Store current direction.
-		 * Stop driving, backup, and turn 90 degrees. 
-		 * Begin full circle search.
+		 * if not completed task
+		 * 	Store current direction.
+		 * 	Stop driving, backup, and turn 90 degrees. 
+		 * 	Begin full circle search.
+		 * else completed task
+		 * 	Keep driving two rotation
+		 * 	Notify listener of finished movement
+		 */
+	}
+
+	@Override
+	public void reachedFullCircle() {
+		/*
+		 * Toggle boolean for completion
+		 * drive forward 
 		 */
 	}
 
