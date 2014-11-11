@@ -9,7 +9,8 @@ import lejos.nxt.SensorPortListener;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 
-public class CanRemover {
+public class Rover
+{
 
 	private NXTCar car;
 	private BotBluetooth bluetooth;
@@ -18,8 +19,8 @@ public class CanRemover {
 	private TouchSensor touchSensor = new TouchSensor(SensorPort.S1);
 	private int pushCount;
 	private boolean crossedBlackLine = false;
-	
-	public CanRemover(BotBluetooth bluetooth){
+
+	public Rover( BotBluetooth bluetooth ){
 		car = new NXTCar();
 		this.bluetooth = bluetooth;
 		SensorPort.S2.addSensorPortListener(new LightSensorListener());
@@ -62,7 +63,7 @@ public class CanRemover {
 		ultraSonic.getDistances(distances);
 		StringBuilder builder = new StringBuilder(car.getFacing() + ": [");
 		for(int i : distances){
-			builder.append(i + ", ");
+			builder.append(i).append(", ");
 		}
 		builder.append("]\n");
 		bluetooth.sendMessage(builder.toString());

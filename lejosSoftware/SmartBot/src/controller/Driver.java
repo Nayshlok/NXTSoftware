@@ -6,7 +6,7 @@ public class Driver {
 		BotBluetooth botBluetooth = new BotBluetooth();
 		Thread bluetoothThread = new Thread(botBluetooth, "bluetoothThread");
 		bluetoothThread.run();
-		CanRemover remover = new CanRemover(botBluetooth);
+		Rover remover = new Rover(botBluetooth);
 		remover.run();
 	}
 }
