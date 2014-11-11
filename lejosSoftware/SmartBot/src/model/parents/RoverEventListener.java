@@ -1,6 +1,7 @@
 package model.parents;
 
 import model.RoverEvent;
+import model.RoverTrashEvent;
 
 /**
  * Created by Stephen on 10/30/2014.
@@ -16,5 +17,5 @@ public interface RoverEventListener extends EventListener
 
     public void enteredLandingPerimeter( Object sender, RoverEvent roverEvent );
 
-    void trashFound( Object sender, RoverEvent roverEvent );
+    void trashFound( Object sender, RoverTrashEvent roverEvent );
 }
