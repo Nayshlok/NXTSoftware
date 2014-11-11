@@ -1,6 +1,8 @@
 package blueTooth;
 
+import lejos.nxt.Button;
 import lejos.nxt.Motor;
+import lejos.nxt.Sound;
 
 public class Driver implements Runnable, BluetoothListener{
 
@@ -13,18 +15,23 @@ public class Driver implements Runnable, BluetoothListener{
 		while(!connected){
 			Thread.yield();
 		}
-		System.out.println(Motor.B.getSpeed());
-		System.out.println(Motor.B.getMaxSpeed());
-		Motor.B.setSpeed(360);
-		Motor.B.resetTachoCount();
-		//Motor.C.resetTachoCount();
+		Sound.buzz();
 		
-		Motor.B.forward();
-		//Motor.C.rotate(90);
-		listener.testEvent();
-		while(!rotation){
-			Thread.yield();
-		}
+		Button.waitForAnyPress();
+		
+		Sound.pause(0);
+//		System.out.println(Motor.B.getSpeed());
+//		System.out.println(Motor.B.getMaxSpeed());
+//		Motor.B.setSpeed(360);
+//		Motor.B.resetTachoCount();
+//		//Motor.C.resetTachoCount();
+//		
+//		Motor.B.forward();
+//		//Motor.C.rotate(90);
+//		listener.testEvent();
+//		while(!rotation){
+//			Thread.yield();
+//		}
 	}
 
 	@Override

@@ -15,14 +15,14 @@ public class PCReciever {
 		
 		try {
 			NXTComm nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			//NXTInfo info = new NXTInfo(NXTCommFactory.BLUETOOTH, "NXT", "00:16:53:0D:DD:A7");
-			NXTInfo[] info = nxtComm.search("NXT");
+			NXTInfo info = new NXTInfo(NXTCommFactory.BLUETOOTH, "NXT", "00:16:53:0D:DD:A7");
+			//NXTInfo[] info = nxtComm.search("NXT");
 			
-			for(NXTInfo i : info){
-				System.out.println(i.deviceAddress + ", " + i.name);
-			}
+//			for(NXTInfo i : info){
+//				System.out.println(i.deviceAddress + ", " + i.name);
+//			}
 			
-			nxtComm.open(info[0]);
+			nxtComm.open(info);
 			
 			try(InputStream is = nxtComm.getInputStream()){
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
