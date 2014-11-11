@@ -4,7 +4,7 @@ package model;
  * Created by Stephen on 10/30/2014.
  * In project: NeumontWork
  */
-class RoverTrashEvent extends RoverEvent
+public class RoverTrashEvent extends RoverEvent
 {
     private final int distanceToTrash;
 

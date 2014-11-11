@@ -2,17 +2,19 @@ package controller;
 
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.SensorPort;
-import lejos.nxt.SensorPortListener;
+import model.RoverEvent;
+import model.RoverTrashEvent;
+import model.parents.AbstractNXTCar;
+import model.parents.RoverEventListener;
 
 /**
  * Created by Stephen on 10/26/2014.
  * In project: NeumontWork
  */
-public class NXTCar{
+public class NXTCar extends AbstractNXTCar implements RoverEventListener{
 
 	private final int DEGREES_FOR_REVOLUTION = 1100;
-	
+
     private NXTRegulatedMotor left = Motor.B,
             right = Motor.C;
     
@@ -30,7 +32,6 @@ public class NXTCar{
         left.forward();
         right.forward();
     }
-
 
     /**
      * Turn both wheels backward.
@@ -83,5 +84,36 @@ public class NXTCar{
     
     public int getFacing(){
     	return facingDegree;
+    }
+
+    @Override
+    public void perimeterTripped( Object sender, RoverEvent roverEvent )
+    {
+
+    }
+
+    @Override
+    public void trashTouched( Object sender, RoverEvent roverEvent )
+    {
+
+    }
+
+    @Override
+    public void leftLandingPerimeter( Object sender, RoverEvent roverEvent )
+    {
+        this.reverse();
+        this.rotate(90);
+    }
+
+    @Override
+    public void enteredLandingPerimeter( Object sender, RoverEvent roverEvent )
+    {
+
+    }
+
+    @Override
+    public void trashFound( Object sender, RoverTrashEvent roverEvent )
+    {
+        this.forward();
     }
 }

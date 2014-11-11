@@ -37,7 +37,7 @@ public abstract class NXTRoverEventSource
     public EventListenerList getSubcribers()
     {
 //        The following will have to go somewhere eventually
-//        Arrays.asList(subcribers.getSubcribers(NXTAreaScanner.class)).clear();
+//        Arrays.asList(subcribers.getSubcribers(model.NXTAreaScanner.class)).clear();
         return subcribers;
     }
 }
