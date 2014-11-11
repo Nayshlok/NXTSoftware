@@ -18,7 +18,7 @@ public class Rover implements TimerListener, FinishedMovementListener{
 	
 	public void start(){
 		/*
-		 * The rover will tell the driver to begin turning.
+		 * The rover will tell the driver to begin turning clockwise
 		 */
 	}
 	

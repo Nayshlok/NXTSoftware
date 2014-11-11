@@ -13,6 +13,12 @@ public class CanDetector {
 		 */
 	}
 	
+	public void registerListener(ContactListener listener){
+		/*
+		 * adds listener to listeners
+		 */
+	}
+	
 	public void notifyListeners(){
 		
 	}
