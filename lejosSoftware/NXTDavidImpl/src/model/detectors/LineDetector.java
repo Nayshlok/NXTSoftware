@@ -14,8 +14,7 @@ public class LineDetector implements Runnable{
 	private List<LineListener> listeners;
 	
 	public LineDetector() {
-		sensor = new LightSensor(SensorPort.S2);
-		sensor.setFloodlight(true);
+		sensor = new LightSensor(SensorPort.S2, true);
 		listeners = new ArrayList<LineListener>();
 	}
 
@@ -23,20 +22,18 @@ public class LineDetector implements Runnable{
 	public void run() {
 		while(!Thread.interrupted()){
 			try{
-				while(sensor.getLightValue() < 20){
+				while(sensor.getLightValue() < 40){
 					Thread.sleep(20);
 				}
 				System.out.println("Line: " + sensor.getLightValue());
 				Rover.bluetoothConnection.sendMessage("Light Value: " + sensor.getLightValue());
 				this.notifyLineDetected();
-				while(sensor.getLightValue() > 20){
+				while(sensor.getLightValue() > 40){
 					Thread.sleep(20);
 				}
 			} catch (InterruptedException te){
 				Thread.currentThread().interrupt();
 			}
-			
-			Rover.bluetoothConnection.sendMessage("Light Value: " + sensor.getLightValue());
 		}
 	}
 	

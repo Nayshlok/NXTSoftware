@@ -28,6 +28,12 @@ public class BotBluetooth implements Runnable{
 		}
 	}
 
+	public void nonThreadRun(){
+		connection = Bluetooth.waitForConnection();
+		os = connection.openOutputStream();
+		this.sendMessage("hi");
+	}
+	
 	@Override
 	public void run() {
 		connection = Bluetooth.waitForConnection();

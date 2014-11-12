@@ -69,13 +69,13 @@ public class NXTCar extends AbstractNXTCar {
     	rotate(toTurn);
     }
     
-    public void rotate(int carRotate) {
+    public void rotate(int carRotate, boolean immediateReturn) {
     	addFacing(carRotate);
     	int angle = (DEGREES_FOR_REVOLUTION/360) * carRotate;
     	
         left.rotate(angle, true);
 		//System.out.println(angle);
-        right.rotate(-angle);
+        right.rotate(-angle, immediateReturn);
 		//System.out.println(-angle);
     }
     

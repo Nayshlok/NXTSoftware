@@ -32,10 +32,12 @@ package model;
 import model.parents.EventListener;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+//import java.lang.reflect.Array;
+import java.util.List;
 
 /**
  * A class that holds a list of EventListeners.  A single instance
@@ -141,18 +143,18 @@ public class EventListenerList
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> t) {
-        Object[] lList = listenerList;
-        int n = getListenerCount(lList, t);
-        T[] result = (T[]) Array.newInstance(t, n);
-        int j = 0;
-        for (int i = lList.length-2; i>=0; i-=2) {
-            if (lList[i] == t) {
-                result[j++] = (T)lList[i+1];
-            }
-        }
-        return result;
-    }
+//    public <T extends EventListener> List<T> getListeners(Class<T> t) {
+//        Object[] lList = listenerList;
+//        int n = getListenerCount(lList, t);
+//        List<T> result = new ArrayList<T>();
+//        int j = 0;
+//        for (int i = lList.length-2; i>=0; i-=2) {
+//            if (lList[i] == t) {
+//                result.add((T)lList[i+1]);
+//            }
+//        }
+//        return result;
+//    }
 
     /**
      * Returns the total number of listeners for this listener list.
@@ -254,37 +256,6 @@ public class EventListenerList
     }
 
     // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException
-    {
-        Object[] lList = listenerList;
-        s.defaultWriteObject();
-
-        // Save the non-null event listeners:
-        for (int i = 0; i < lList.length; i+=2) {
-            Class t = (Class)lList[i];
-            EventListener l = (EventListener)lList[i+1];
-            if ((l!=null) && (l instanceof Serializable)) {
-                s.writeObject(t.getName());
-                s.writeObject(l);
-            }
-        }
-
-        s.writeObject(null);
-    }
-
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        listenerList = NULL_ARRAY;
-        s.defaultReadObject();
-        Object listenerTypeOrNull;
-
-        while (null != (listenerTypeOrNull = s.readObject())) {
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            EventListener l = (EventListener)s.readObject();
-            String name = (String) listenerTypeOrNull;
-            add((Class<EventListener>)Class.forName(name, true, cl), l);
-        }
-    }
 
     /**
      * Returns a string representation of the EventListenerList.
@@ -294,7 +265,7 @@ public class EventListenerList
         String s = "EventListenerList: ";
         s += lList.length/2 + " listeners: ";
         for (int i = 0 ; i <= lList.length-2 ; i+=2) {
-            s += " type " + ((Class)lList[i]).getName();
+            s += " type " + ((Class)lList[i]);
             s += " listener " + lList[i+1];
         }
         return s;

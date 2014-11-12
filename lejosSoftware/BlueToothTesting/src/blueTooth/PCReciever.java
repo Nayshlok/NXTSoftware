@@ -30,7 +30,7 @@ public class PCReciever {
 			int i = -1;
 				while((i = is.read(b)) != -1){
 					byteStream.write(b);
-					if(!byteStream.toString().isEmpty()){
+					if(byteStream.toString().contains("\r\n\r\n")){
 						System.out.println(byteStream.toString());
 						byteStream.reset();
 					}

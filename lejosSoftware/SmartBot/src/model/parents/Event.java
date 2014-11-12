@@ -39,6 +39,6 @@ public class Event
      * @return  A a String representation of this EventObject.
      */
     public String toString() {
-        return getClass().getName() + "[source=" + source + "]";
+        return "Model.Event" + "[source=" + source + "]";
     }
 }
