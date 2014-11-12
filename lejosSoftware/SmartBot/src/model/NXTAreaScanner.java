@@ -15,6 +15,7 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
 {
     private final UltrasonicSensor eye;
     private final LightSensor lineDetector;
+    private boolean scanning;
 
     public NXTAreaScanner( UltrasonicSensor ultrasonicSensor, SensorPort lightSensorPort )
     {
@@ -25,7 +26,11 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
             @Override
             public void stateChanged( SensorPort aSource, int aOldValue, int aNewValue )
             {
-                if ( aNewValue > 700 ) fireEvent(new RoverEvent(this));
+                if ( aNewValue > 700 )
+                {
+                    fireEvent(new RoverEvent(this));
+                    setScanning(false);
+                }
             }
         });
     }
@@ -37,6 +42,7 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
             @Override
             public void run()
             {
+                setScanning(true);
                 scan();
                 Thread.yield();
             }
@@ -55,12 +61,22 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
 
     private void scan()
     {
+        System.out.println("NXTAreaScanner.scan");
         eye.ping();
         int[] distances = new int[8];
         eye.getDistances(distances);
         int trustedDistance = distances[0];
         if ( trustedDistance < 40 && trustedDistance > 1 )
             fireEvent(new RoverTrashEvent(this, trustedDistance));
+    }
+
+    public void publicScan()
+    {
+        if (!scanning)
+        {
+            System.out.println("scan() from NXTAreaScanner.publicScan");
+            scan();
+        }
     }
 
     @Override
@@ -72,7 +88,7 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
             {
                 if ( listener instanceof RoverEventListener )
                 {
-                    ( (RoverEventListener) listener ).trashFound(eye, ( (RoverTrashEvent) roverEvent ));
+                    ( (RoverEventListener) listener ).trashFound(this, ( (RoverTrashEvent) roverEvent ));
                 }
             }
         }
@@ -89,4 +105,13 @@ public class NXTAreaScanner extends NXTRoverEventSource implements StateChanged<
         }
     }
 
+    public void setScanning( boolean scanning )
+    {
+        this.scanning = scanning;
+    }
+
+    public boolean isScanning()
+    {
+        return scanning;
+    }
 }
