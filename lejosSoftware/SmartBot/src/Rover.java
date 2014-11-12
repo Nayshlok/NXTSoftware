@@ -30,6 +30,9 @@ public class Rover implements RoverEventListener
          */
 
         NXTAreaScanner nxtAreaScanner = new NXTAreaScanner(ultraSonic, SensorPort.S2);
+
+        nxtAreaScanner.addRoverEventListeners(this);
+
         new Thread(new Runnable()
         {
             @Override
