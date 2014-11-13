@@ -1,6 +1,5 @@
 package test;
 
-import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.util.Delay;
@@ -44,5 +43,4 @@ public class DistanceTest {
 			bluetooth.sendMessage(e.getMessage());
 		}
 	}
-	
 }

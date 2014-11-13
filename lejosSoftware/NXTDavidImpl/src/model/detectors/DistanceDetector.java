@@ -1,11 +1,11 @@
 package model.detectors;
-import java.util.ArrayList;
-import java.util.List;
-
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import model.Rover;
 import model.listeners.DistanceListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DistanceDetector implements Runnable{
@@ -38,7 +38,17 @@ public class DistanceDetector implements Runnable{
 	public void unregister(DistanceListener listener){
 		listeners.remove(listener);
 	}
-	
+
+	public UltrasonicSensor getSensor()
+	{
+		return sensor;
+	}
+
+	public List<DistanceListener> getListeners()
+	{
+		return listeners;
+	}
+
 	public void notifyNearObject(int distance){
 		for(DistanceListener l : listeners){
 			l.objectDetected(distance);
