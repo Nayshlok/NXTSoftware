@@ -4,6 +4,7 @@ import java.util.List;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import model.Rover;
 import model.listeners.LineListener;
 
@@ -15,25 +16,30 @@ public class LineDetector implements Runnable{
 	
 	public LineDetector() {
 		sensor = new LightSensor(SensorPort.S2, true);
+		sensor.calibrateHigh();
 		listeners = new ArrayList<LineListener>();
 	}
 
 	@Override
 	public void run() {
 		while(!Thread.interrupted()){
-			try{
-				while(sensor.getLightValue() < 40){
-					Thread.sleep(20);
-				}
-				System.out.println("Line: " + sensor.getLightValue());
-				Rover.bluetoothConnection.sendMessage("Light Value: " + sensor.getLightValue());
+			if(sensor.getLightValue() < 80){
 				this.notifyLineDetected();
-				while(sensor.getLightValue() > 40){
-					Thread.sleep(20);
+				while(sensor.getLightValue() < 80){
+					Thread.yield();
 				}
-			} catch (InterruptedException te){
-				Thread.currentThread().interrupt();
 			}
+//			while(sensor.getLightValue() > 80){
+//				Thread.yield();
+//			}
+//			System.out.println("Line: " + sensor.getLightValue());
+//			this.notifyLineDetected();
+//			Sound.playNote(Sound.FLUTE, 1800, 500);
+//			while(sensor.getLightValue() > 80){
+//				Thread.yield();
+//			}
+//			Sound.playNote(Sound.PIANO, 800, 500);
+//			System.out.println("past line detection");
 		}
 	}
 	
@@ -42,6 +48,7 @@ public class LineDetector implements Runnable{
 	}
 	
 	public void notifyLineDetected(){
+		Sound.playNote(Sound.PIANO, 700, 500);
 		for(LineListener l : listeners){
 			l.lineDetected();
 		}

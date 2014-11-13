@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lejos.nxt.Motor;
+import lejos.nxt.Sound;
 import lejos.robotics.RegulatedMotor;
 import lejos.util.Delay;
 import model.detectors.RotationDetector;
@@ -21,7 +22,7 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 	private DriveState driveState;
 	
 	public enum DriveState{
-		SEARCHING, REMOVING, FINISHED;
+		SEARCHING, REMOVING, RETURNING, FINISHED;
 	}
 	
 	public Driver(){
@@ -41,6 +42,7 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 	}
 	
 	public void forward(){
+		System.out.println("forward");
 		leftWheel.forward();
 		rightWheel.forward();
 	}
@@ -57,9 +59,9 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 	}
 	
 	public void backward(int numberOfRotation){
+		this.notifyMovingBackwards();
 		leftWheel.rotate(-360 * numberOfRotation, true);
 		rightWheel.rotate(-360 * numberOfRotation);
-		this.notifyMovingBackwards();
 	}
 	
 	public void stop(){
@@ -116,9 +118,14 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 		case SEARCHING:
 			break;
 		case REMOVING:
-			this.forward(1);
-			this.backward(1);
-			this.turnClockwise(90);
+			Sound.playNote(Sound.FLUTE, 1000, 500);
+			System.out.println("locked turn");
+			this.turnClockwise(180);
+			Sound.playNote(Sound.PIANO, 1600, 500);
+			this.forward();
+			break;
+		case RETURNING:
+			//stop();
 			driveState = DriveState.SEARCHING;
 			this.turnClockwise();
 			break;
@@ -133,8 +140,14 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 
 	@Override
 	public void reachedFullCircle() {
-		driveState = DriveState.FINISHED;
-		this.forward();
+		if(driveState == DriveState.SEARCHING){
+			driveState = DriveState.FINISHED;
+			this.forward();
+		}
+		else{
+			leftWheel.resetTachoCount();
+			rightWheel.resetTachoCount();
+		}
 	}
 
 	@Override

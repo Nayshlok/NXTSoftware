@@ -24,16 +24,14 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 	}
 	
 	public void playContact(){
-		Sound.buzz();
+		Sound.beepSequenceUp();
 	}
 	
 	public void stopContact(){
 	}
 	
 	public void playBackup(){
-		while(backingUp){
-			Sound.beep();
-		}
+		Sound.beep();
 	}
 	
 
@@ -56,16 +54,15 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 
 	@Override
 	public void stopBackward() {
-		/*
-		 * Stop backward sound
-		 */
+		backingUp = false;
 		
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		while(!Thread.interrupted()){
+			Thread.yield();
+		}
 	}
 	
 	

@@ -25,6 +25,7 @@ public class RoverTimer implements Runnable{
 		while(!Thread.interrupted()){
 			if((System.currentTimeMillis() - startTime) >= 120000){
 				this.notifyTimeUp();
+				System.out.println("Time up");
 			}
 		}
 	}

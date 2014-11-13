@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import model.detectors.ContactDetector;
 import model.detectors.DistanceDetector;
@@ -15,7 +16,7 @@ import model.listeners.TimerListener;
 
 public class Rover implements TimerListener, FinishedMovementListener{
 
-	public static BotBluetooth bluetoothConnection;
+//	public static BotBluetooth bluetoothConnection;
 	private Driver driver;
 	private RoverTimer timer;
 	private SoundManager soundManager;
@@ -26,7 +27,7 @@ public class Rover implements TimerListener, FinishedMovementListener{
 		driver = new Driver();
 		timer = new RoverTimer();
 		soundManager = new SoundManager();
-		bluetoothConnection = new BotBluetooth();
+//		bluetoothConnection = new BotBluetooth();
 		LineDetector lineDetector = new LineDetector();
 		DistanceDetector distanceDetector = new DistanceDetector();
 		ContactDetector contactDetector = new ContactDetector();
@@ -40,7 +41,7 @@ public class Rover implements TimerListener, FinishedMovementListener{
 		contactDetector.registerListener(soundManager);
 		rotationDetector.registerListener(driver);
 		
-		threadList.add(new Thread(bluetoothConnection, "bluetooth"));
+//		threadList.add(new Thread(bluetoothConnection, "bluetooth"));
 		threadList.add(new Thread(driver, "driver"));
 		threadList.add(new Thread(timer, "timer"));
 		threadList.add(new Thread(lineDetector, "line"));
@@ -81,6 +82,7 @@ public class Rover implements TimerListener, FinishedMovementListener{
 		for(Thread t : threadList){
 			t.interrupt();
 		}
+		Button.waitForAnyPress();
 		System.exit(0);
 	}
 	

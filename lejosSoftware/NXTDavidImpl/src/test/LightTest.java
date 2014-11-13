@@ -23,6 +23,7 @@ public class LightTest implements LineListener{
 		bluetooth.nonThreadRun();
 
 		driver.forward();
+		sensor.calibrateHigh();
 		
 		for(int i = 0; i < 50; i++){
 			int reading = sensor.getLightValue();

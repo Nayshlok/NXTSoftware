@@ -26,6 +26,7 @@ public class ContactDetector implements Runnable{
 					Thread.sleep(20);
 				}
 				this.notifyButtonPress();
+				System.out.println("Can hit");
 				while(sensor.isPressed()){
 					Thread.sleep(20);
 				}

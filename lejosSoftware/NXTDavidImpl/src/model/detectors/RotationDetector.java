@@ -32,6 +32,7 @@ public class RotationDetector implements Runnable{
 			int rightTach = rightSide.getTachoCount();
 			if(leftTach >= DEGREE_FOR_REVOLUTION && rightTach >= DEGREE_FOR_REVOLUTION){
 				this.notifyFullRevolution();
+				System.out.println("Fire rotation event");
 			}
 		}
 	}
