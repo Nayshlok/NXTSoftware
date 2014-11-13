@@ -67,7 +67,9 @@ public void testRegisterListener() throws Exception {
 @Test
 public void testUnregister() throws Exception { 
     testDetector.unregister(testDetector.getListeners().get(0));
-    Assert.assertTrue(testDetector.getListeners().size() == 0);
+
+    Assert.assertTrue("Post register, the list should be empty",
+            testDetector.getListeners().size() == 0);
 } 
 
 /** 
@@ -77,7 +79,8 @@ public void testUnregister() throws Exception {
 */ 
 @Test
 public void testGetSensor() throws Exception { 
-//TODO: Test goes here... 
+    Assert.assertNotNull("The listener list should never be null",
+            testDetector.getListeners());
 } 
 
 /** 
@@ -88,7 +91,7 @@ public void testGetSensor() throws Exception {
 @Test
 public void testGetListeners() throws Exception { 
     testDetector.registerListener(listener);
-    Assert.assertFalse(testDetector.getListeners().isEmpty());
+    Assert.assertFalse("Listeners should not be empty",testDetector.getListeners().isEmpty());
 } 
 
 /** 
@@ -98,7 +101,7 @@ public void testGetListeners() throws Exception {
 */ 
 @Test
 public void testNotifyNearObject() throws Exception { 
-//TODO: Test goes here... 
+//TODO: Test goes here...
 } 
 
 
