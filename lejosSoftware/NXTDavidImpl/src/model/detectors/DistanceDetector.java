@@ -1,7 +1,6 @@
 package model.detectors;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import model.Rover;
 import model.listeners.DistanceListener;
 
 import java.util.ArrayList;
