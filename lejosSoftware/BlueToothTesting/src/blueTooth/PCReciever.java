@@ -10,7 +10,7 @@ import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
 public class PCReciever {
-
+	
 	public static void main(String[] args) {
 		
 		try {

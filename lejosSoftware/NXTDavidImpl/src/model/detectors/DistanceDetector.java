@@ -22,10 +22,11 @@ public class DistanceDetector implements Runnable{
 	public void run() {
 		while(!Thread.interrupted()){
 			sensor.ping();
-			int distance = sensor.getDistance();
-			if(distance < 30){
+			int[] distance = new int[8];
+			int readIn = sensor.getDistance();
+			if(distance[0] < 30 && readIn > 0){
 				Rover.bluetoothConnection.sendMessage("Distance is: " + distance);
-				this.notifyNearObject(distance);
+				this.notifyNearObject(distance[0]);
 			}
 		}
 	}
