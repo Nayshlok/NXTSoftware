@@ -4,8 +4,7 @@ import java.util.List;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
-import lejos.nxt.Sound;
-import model.Rover;
+import lejos.nxt.comm.RConsole;
 import model.listeners.LineListener;
 
 
@@ -23,19 +22,22 @@ public class LineDetector implements Runnable{
 	@Override
 	public void run() {
 		while(!Thread.interrupted()){
-			if(sensor.getLightValue() < 80){
+			if(sensor.getLightValue() < 150){
+				RConsole.println("about to notify light listeners");
 				this.notifyLineDetected();
-				while(sensor.getLightValue() < 80){
+				while(sensor.getLightValue() < 150){
 					Thread.yield();
+					RConsole.println("stick on line, reading: " + sensor.getLightValue());
 				}
 			}
 //			while(sensor.getLightValue() > 80){
 //				Thread.yield();
 //			}
-//			System.out.println("Line: " + sensor.getLightValue());
+//			RConsole.println("Line: " + sensor.getLightValue());
 //			this.notifyLineDetected();
 //			Sound.playNote(Sound.FLUTE, 1800, 500);
 //			while(sensor.getLightValue() > 80){
+//				RConsole.println("Stuck in second light loop");
 //				Thread.yield();
 //			}
 //			Sound.playNote(Sound.PIANO, 800, 500);
@@ -48,7 +50,6 @@ public class LineDetector implements Runnable{
 	}
 	
 	public void notifyLineDetected(){
-		Sound.playNote(Sound.PIANO, 700, 500);
 		for(LineListener l : listeners){
 			l.lineDetected();
 		}

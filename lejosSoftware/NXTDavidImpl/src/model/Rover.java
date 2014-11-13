@@ -5,6 +5,7 @@ import java.util.List;
 
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
+import lejos.nxt.comm.RConsole;
 import model.detectors.ContactDetector;
 import model.detectors.DistanceDetector;
 import model.detectors.LineDetector;
@@ -68,6 +69,7 @@ public class Rover implements TimerListener, FinishedMovementListener{
 	
 	@Override
 	public void timeUp() {
+		RConsole.println("Stopping for time");
 		soundManager.playFailure();
 		for(Thread t : threadList){
 			t.interrupt();
@@ -82,7 +84,6 @@ public class Rover implements TimerListener, FinishedMovementListener{
 		for(Thread t : threadList){
 			t.interrupt();
 		}
-		Button.waitForAnyPress();
 		System.exit(0);
 	}
 	

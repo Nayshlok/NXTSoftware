@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lejos.nxt.Motor;
-import lejos.nxt.Sound;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.RegulatedMotor;
 import lejos.util.Delay;
 import model.detectors.RotationDetector;
@@ -113,23 +113,26 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 
 	@Override
 	public void lineDetected() {
-		
 		switch (driveState) {
 		case SEARCHING:
+			RConsole.println("recieved line in search");
 			break;
 		case REMOVING:
-			Sound.playNote(Sound.FLUTE, 1000, 500);
+			RConsole.println("recieved line in remove");
 			System.out.println("locked turn");
 			this.turnClockwise(180);
-			Sound.playNote(Sound.PIANO, 1600, 500);
+			this.driveState = DriveState.RETURNING;
 			this.forward();
 			break;
 		case RETURNING:
+			RConsole.println("recieved line in return");
 			//stop();
 			driveState = DriveState.SEARCHING;
 			this.turnClockwise();
 			break;
 		case FINISHED:
+			RConsole.println("recieved line in finish");
+
 			this.forward(4);
 			this.notifyFinish();
 			break;
@@ -141,12 +144,14 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 	@Override
 	public void reachedFullCircle() {
 		if(driveState == DriveState.SEARCHING){
+			RConsole.println("Finished Movement");
 			driveState = DriveState.FINISHED;
 			this.forward();
 		}
 		else{
 			leftWheel.resetTachoCount();
 			rightWheel.resetTachoCount();
+			RConsole.println("done reseting tacho");
 		}
 	}
 
