@@ -144,8 +144,8 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 					notifyFinish();
 				}
 				else{
-					driveState = DriveState.SEARCHING;
 					this.backward(3);
+					driveState = DriveState.SEARCHING;
 					this.turnClockwise();
 				}
 			break;
