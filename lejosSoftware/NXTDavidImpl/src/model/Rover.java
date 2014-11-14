@@ -11,17 +11,19 @@ import model.detectors.DistanceDetector;
 import model.detectors.LineDetector;
 import model.detectors.RotationDetector;
 import model.detectors.RoverTimer;
+import model.listeners.ContactListener;
 import model.listeners.FinishedMovementListener;
 import model.listeners.TimerListener;
 
 
-public class Rover implements TimerListener, FinishedMovementListener{
+public class Rover implements TimerListener, FinishedMovementListener, ContactListener{
 
 //	public static BotBluetooth bluetoothConnection;
 	private Driver driver;
 	private RoverTimer timer;
 	private SoundManager soundManager;
 	private List<Thread> threadList = new ArrayList<Thread>();
+
 	
 	public Rover(){
 		
@@ -85,6 +87,16 @@ public class Rover implements TimerListener, FinishedMovementListener{
 			t.interrupt();
 		}
 		System.exit(0);
+	}
+
+	@Override
+	public void buttonPressed() {
+		
+	}
+
+	@Override
+	public void buttonReleased() {
+
 	}
 	
 }

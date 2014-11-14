@@ -20,9 +20,15 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 	private List<DriverListener> driveListeners;
 	private List<FinishedMovementListener> finishListeners;
 	private DriveState driveState;
+	private MotorState motorState;
+	private final int NUMBER_OF_CANS = 5;
+	private int cansPushed = 0;
 	
 	public enum DriveState{
 		SEARCHING, REMOVING, RETURNING, FINISHED;
+	}
+	public enum MotorState{
+		FORWARD, BACKWARD, TURNING, STOP;
 	}
 	
 	public Driver(){
@@ -43,39 +49,46 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 	
 	public void forward(){
 		System.out.println("forward");
+		motorState = MotorState.FORWARD;
 		leftWheel.forward();
 		rightWheel.forward();
 	}
 	
 	public void forward(int numberOfRotation){
+		motorState = MotorState.FORWARD;
 		leftWheel.rotate(360 * numberOfRotation, true);
 		rightWheel.rotate(360 * numberOfRotation);
 	}
 	
 	public void backward(){
+		motorState = MotorState.BACKWARD;
 		leftWheel.backward();
 		rightWheel.backward();
 		this.notifyMovingBackwards();
 	}
 	
 	public void backward(int numberOfRotation){
+		motorState = MotorState.BACKWARD;
 		this.notifyMovingBackwards();
 		leftWheel.rotate(-360 * numberOfRotation, true);
 		rightWheel.rotate(-360 * numberOfRotation);
 	}
 	
 	public void stop(){
-		leftWheel.stop();
+		motorState = MotorState.STOP;
+		leftWheel.stop(true);
 		rightWheel.stop();
 		this.notifyStop();
 	}
 	
 	public void turnClockwise(){
+		motorState = MotorState.TURNING;
 		leftWheel.forward();
 		rightWheel.backward();
 	}
 	
 	public void turnClockwise(int degreeTurn){
+		motorState = MotorState.TURNING;
 		int totalAngle = RotationDetector.DEGREE_FOR_REVOLUTION;
     	int angle = (totalAngle/360) * degreeTurn;
     	
@@ -113,26 +126,28 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 
 	@Override
 	public void lineDetected() {
+		RConsole.println("received light event");
 		switch (driveState) {
 		case SEARCHING:
 			RConsole.println("recieved line in search");
 			break;
 		case REMOVING:
 			RConsole.println("recieved line in remove");
-			System.out.println("locked turn");
-			this.turnClockwise(180);
-			this.driveState = DriveState.RETURNING;
-			this.forward();
+			this.forward(2);
+			this.backward(4);
+			if(cansPushed > NUMBER_OF_CANS){
+				driveState = DriveState.FINISHED;
+			}
+			else{
+				driveState = DriveState.SEARCHING;
+				cansPushed++;
+			}
+			this.turnClockwise();
 			break;
 		case RETURNING:
-			RConsole.println("recieved line in return");
-			//stop();
-			driveState = DriveState.SEARCHING;
-			this.turnClockwise();
 			break;
 		case FINISHED:
 			RConsole.println("recieved line in finish");
-
 			this.forward(4);
 			this.notifyFinish();
 			break;
@@ -143,15 +158,14 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 
 	@Override
 	public void reachedFullCircle() {
+		RConsole.println(driveState.toString());
 		if(driveState == DriveState.SEARCHING){
 			RConsole.println("Finished Movement");
 			driveState = DriveState.FINISHED;
 			this.forward();
 		}
 		else{
-			leftWheel.resetTachoCount();
-			rightWheel.resetTachoCount();
-			RConsole.println("done reseting tacho");
+			this.resetTacho();
 		}
 	}
 
@@ -162,5 +176,24 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 		}
 	}
 
+	public void resetTacho(){
+		leftWheel.resetTachoCount();
+		rightWheel.resetTachoCount();
+		resumeAction();
+	}
+
+	private void resumeAction() {
+		switch(motorState){
+		case FORWARD:
+			this.forward();
+			break;
+		case TURNING:
+			this.turnClockwise();
+			break;
+		case STOP:
+			this.stop();
+			break;
+		}
+	}
 	
 }

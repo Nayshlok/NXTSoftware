@@ -27,7 +27,6 @@ public class LineDetector implements Runnable{
 				this.notifyLineDetected();
 				while(sensor.getLightValue() < 150){
 					Thread.yield();
-					RConsole.println("stick on line, reading: " + sensor.getLightValue());
 				}
 			}
 //			while(sensor.getLightValue() > 80){

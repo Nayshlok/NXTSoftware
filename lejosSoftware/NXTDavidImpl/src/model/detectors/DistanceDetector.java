@@ -4,6 +4,7 @@ import java.util.List;
 
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.RConsole;
 import model.Rover;
 import model.listeners.DistanceListener;
 
@@ -24,9 +25,10 @@ public class DistanceDetector implements Runnable{
 			sensor.ping();
 			int[] distance = new int[8];
 			int readIn = sensor.getDistances(distance);
-			if(distance[0] < 40 && distance[0] != 0){
-//				Rover.bluetoothConnection.sendMessage("Distance is: " + distance);
-				this.notifyNearObject(distance[0]);
+			int validDistance = distance[0];
+			if(validDistance < 40 && validDistance != 0){
+				RConsole.println("Distance is: " + distance);
+				this.notifyNearObject(validDistance);
 			}
 		}
 	}

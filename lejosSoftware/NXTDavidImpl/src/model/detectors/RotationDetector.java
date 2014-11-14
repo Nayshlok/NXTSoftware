@@ -5,19 +5,20 @@ import java.util.List;
 import lejos.nxt.Motor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTMotor;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.RegulatedMotor;
 import model.listeners.RotationListener;
 
 
 public class RotationDetector implements Runnable{
 
-	private NXTMotor leftSide, rightSide;
+	private RegulatedMotor leftSide, rightSide;
 	private List<RotationListener> listeners;
 	public static final int DEGREE_FOR_REVOLUTION = 1090;
 	
 	public RotationDetector(){
-		leftSide = new NXTMotor(MotorPort.B);
-		rightSide = new NXTMotor(MotorPort.C);
+		leftSide = Motor.B;
+		rightSide = Motor.C;
 		listeners = new ArrayList<RotationListener>();
 	}
 	
@@ -29,10 +30,9 @@ public class RotationDetector implements Runnable{
 	public void run() {
 		while(!Thread.interrupted()){
 			int leftTach = leftSide.getTachoCount();
-			int rightTach = rightSide.getTachoCount();
-			if(leftTach >= DEGREE_FOR_REVOLUTION && rightTach >= DEGREE_FOR_REVOLUTION){
+			if(leftTach >= DEGREE_FOR_REVOLUTION){
+				RConsole.println("Fire revolution event");
 				this.notifyFullRevolution();
-				System.out.println("Fire revolution event");
 			}
 		}
 	}
