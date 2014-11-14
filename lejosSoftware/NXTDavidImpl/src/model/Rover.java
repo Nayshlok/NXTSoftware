@@ -42,6 +42,7 @@ public class Rover implements TimerListener, FinishedMovementListener, ContactLi
 		lineDetector.registerListener(driver);
 		distanceDetector.registerListener(driver);
 		contactDetector.registerListener(soundManager);
+		contactDetector.registerListener(driver);
 		//rotationDetector.registerListener(driver);
 		
 //		threadList.add(new Thread(bluetoothConnection, "bluetooth"));

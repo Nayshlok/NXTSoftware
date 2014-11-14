@@ -8,6 +8,8 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 
 	private boolean inContact = false;
 	private boolean backingUp = false;
+	private Thread backingUpThread = new Thread();
+	private Thread buttonThread = new Thread();
 	
 	public SoundManager() {
 		Sound.setVolume(90);
@@ -28,14 +30,28 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 	}
 	
 	public void playContact(){
-		Sound.beepSequenceUp();
+		buttonThread = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				while(!Thread.interrupted())
+					Sound.beepSequenceUp();
+			}
+		});
+		buttonThread.start();
 	}
 	
 	public void stopContact(){
 	}
 	
 	public void playBackup(){
-		Sound.beep();
+		backingUpThread = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				while(!Thread.interrupted())
+					Sound.beep();
+			}
+		});
+		backingUpThread.start();
 	}
 	
 
@@ -47,7 +63,7 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 
 	@Override
 	public void buttonReleased() {
-		inContact = false;
+		buttonThread.interrupt();
 		
 	}
 
@@ -58,7 +74,7 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 
 	@Override
 	public void stopBackward() {
-		backingUp = false;
+		backingUpThread.interrupt();
 		
 	}
 

@@ -7,6 +7,7 @@ import lejos.nxt.comm.RConsole;
 import lejos.robotics.RegulatedMotor;
 import lejos.util.Delay;
 import model.detectors.RotationDetector;
+import model.listeners.ContactListener;
 import model.listeners.DistanceListener;
 import model.listeners.DriverListener;
 import model.listeners.FinishedMovementListener;
@@ -14,7 +15,7 @@ import model.listeners.LineListener;
 import model.listeners.RotationListener;
 
 
-public class Driver implements DistanceListener, LineListener, Runnable {
+public class Driver implements DistanceListener, LineListener, ContactListener, Runnable {
 
 	private RegulatedMotor leftWheel, rightWheel;
 	private List<DriverListener> driveListeners;
@@ -23,6 +24,7 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 	private MotorState motorState;
 	private final int NUMBER_OF_CANS = 3;
 	private int cansPushed = 0;
+	private boolean canContacted = false;
 	
 	public enum DriveState{
 		SEARCHING, REMOVING, RETURNING, FINISHED;
@@ -52,6 +54,7 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 		motorState = MotorState.FORWARD;
 		leftWheel.forward();
 		rightWheel.forward();
+		this.notifyStop();
 	}
 	
 	public void forward(int numberOfRotation){
@@ -85,6 +88,7 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 		motorState = MotorState.TURNING;
 		leftWheel.forward();
 		rightWheel.backward();
+		notifyStop();
 	}
 	
 	public void turnClockwise(int degreeTurn){
@@ -134,10 +138,13 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 		case REMOVING:
 			RConsole.println("recieved line in remove");
 			this.forward(2);
-			cansPushed++;
+			RConsole.println("Can contacted: " + canContacted);
+			if(canContacted){
+				cansPushed++;
+			}
 			RConsole.println("number of cans pushed: " + cansPushed);
 				
-				if(cansPushed > NUMBER_OF_CANS){
+				if(cansPushed >= NUMBER_OF_CANS){
 					RConsole.println("Finished with cans");
 					driveState = DriveState.FINISHED;
 					this.forward(4);
@@ -145,6 +152,7 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 				}
 				else{
 					this.backward(3);
+					canContacted = false;
 					driveState = DriveState.SEARCHING;
 					this.turnClockwise();
 				}
@@ -199,6 +207,19 @@ public class Driver implements DistanceListener, LineListener, Runnable {
 			this.stop();
 			break;
 		}
+	}
+
+	@Override
+	public void buttonPressed() {
+		RConsole.println("Button contacted Can");
+		canContacted = true;
+		
+	}
+
+	@Override
+	public void buttonReleased() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
