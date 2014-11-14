@@ -40,7 +40,7 @@ public class Rover implements RoverEventListener
             {
                 while ( true )
                 {
-                    car.rotate(10);
+                    car.rotate(360, true);
                     Thread.yield();
                 }
             }
