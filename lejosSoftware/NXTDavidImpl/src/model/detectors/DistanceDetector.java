@@ -25,8 +25,8 @@ public class DistanceDetector implements Runnable{
 			int[] distance = new int[8];
 			int readIn = sensor.getDistances(distance);
 			int validDistance = distance[0];
-			if(validDistance < 40 && validDistance != 0){
-				RConsole.println("Distance is: " + distance);
+			if(validDistance < 50 && validDistance != 0){
+				RConsole.println("Distance is: " + validDistance);
 				this.notifyNearObject(validDistance);
 			}
 		}

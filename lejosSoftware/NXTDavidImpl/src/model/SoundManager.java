@@ -9,6 +9,10 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 	private boolean inContact = false;
 	private boolean backingUp = false;
 	
+	public SoundManager() {
+		Sound.setVolume(90);
+	}
+	
 	public void playVictory(){
 		Sound.playNote(Sound.FLUTE, 1200, 250);
 		Sound.playNote(Sound.FLUTE, 1400, 250);

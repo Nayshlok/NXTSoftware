@@ -34,7 +34,7 @@ public class Rover implements TimerListener, FinishedMovementListener, ContactLi
 		LineDetector lineDetector = new LineDetector();
 		DistanceDetector distanceDetector = new DistanceDetector();
 		ContactDetector contactDetector = new ContactDetector();
-		RotationDetector rotationDetector = new RotationDetector();		
+		//RotationDetector rotationDetector = new RotationDetector();		
 		
 		driver.registerFinishedListener(this);
 		driver.registerDriverListener(soundManager);
@@ -42,7 +42,7 @@ public class Rover implements TimerListener, FinishedMovementListener, ContactLi
 		lineDetector.registerListener(driver);
 		distanceDetector.registerListener(driver);
 		contactDetector.registerListener(soundManager);
-		rotationDetector.registerListener(driver);
+		//rotationDetector.registerListener(driver);
 		
 //		threadList.add(new Thread(bluetoothConnection, "bluetooth"));
 		threadList.add(new Thread(driver, "driver"));
@@ -50,7 +50,7 @@ public class Rover implements TimerListener, FinishedMovementListener, ContactLi
 		threadList.add(new Thread(lineDetector, "line"));
 		threadList.add(new Thread(distanceDetector, "distance"));
 		threadList.add(new Thread(contactDetector, "contact"));
-		threadList.add(new Thread(rotationDetector, "rotation"));
+		//threadList.add(new Thread(rotationDetector, "rotation"));
 	}
 	
 	public void start(){

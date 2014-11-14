@@ -14,14 +14,14 @@ import model.listeners.LineListener;
 import model.listeners.RotationListener;
 
 
-public class Driver implements DistanceListener, LineListener, RotationListener, Runnable {
+public class Driver implements DistanceListener, LineListener, Runnable {
 
 	private RegulatedMotor leftWheel, rightWheel;
 	private List<DriverListener> driveListeners;
 	private List<FinishedMovementListener> finishListeners;
 	private DriveState driveState;
 	private MotorState motorState;
-	private final int NUMBER_OF_CANS = 5;
+	private final int NUMBER_OF_CANS = 3;
 	private int cansPushed = 0;
 	
 	public enum DriveState{
@@ -134,15 +134,20 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 		case REMOVING:
 			RConsole.println("recieved line in remove");
 			this.forward(2);
-			this.backward(4);
-			if(cansPushed > NUMBER_OF_CANS){
-				driveState = DriveState.FINISHED;
-			}
-			else{
-				driveState = DriveState.SEARCHING;
-				cansPushed++;
-			}
-			this.turnClockwise();
+			cansPushed++;
+			RConsole.println("number of cans pushed: " + cansPushed);
+				
+				if(cansPushed > NUMBER_OF_CANS){
+					RConsole.println("Finished with cans");
+					driveState = DriveState.FINISHED;
+					this.forward(4);
+					notifyFinish();
+				}
+				else{
+					driveState = DriveState.SEARCHING;
+					this.backward(3);
+					this.turnClockwise();
+				}
 			break;
 		case RETURNING:
 			break;
@@ -156,18 +161,18 @@ public class Driver implements DistanceListener, LineListener, RotationListener,
 		}
 	}
 
-	@Override
-	public void reachedFullCircle() {
-		RConsole.println(driveState.toString());
-		if(driveState == DriveState.SEARCHING){
-			RConsole.println("Finished Movement");
-			driveState = DriveState.FINISHED;
-			this.forward();
-		}
-		else{
-			this.resetTacho();
-		}
-	}
+//	@Override
+//	public void reachedFullCircle() {
+//		RConsole.println(driveState.toString());
+//		if(driveState == DriveState.SEARCHING){
+//			RConsole.println("Finished Movement");
+//			driveState = DriveState.FINISHED;
+//			this.forward();
+//		}
+//		else{
+//			this.resetTacho();
+//		}
+//	}
 
 	@Override
 	public void run() {
