@@ -64,7 +64,6 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 	@Override
 	public void buttonReleased() {
 		buttonThread.interrupt();
-		
 	}
 
 	@Override
@@ -75,7 +74,6 @@ public class SoundManager implements ContactListener, DriverListener, Runnable{
 	@Override
 	public void stopBackward() {
 		backingUpThread.interrupt();
-		
 	}
 
 	@Override

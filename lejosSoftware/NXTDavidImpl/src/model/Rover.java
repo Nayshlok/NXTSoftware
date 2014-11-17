@@ -1,19 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.comm.RConsole;
 import model.detectors.ContactDetector;
 import model.detectors.DistanceDetector;
 import model.detectors.LineDetector;
-import model.detectors.RotationDetector;
 import model.detectors.RoverTimer;
 import model.listeners.ContactListener;
 import model.listeners.FinishedMovementListener;
 import model.listeners.TimerListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Rover implements TimerListener, FinishedMovementListener, ContactListener{
@@ -84,7 +82,7 @@ public class Rover implements TimerListener, FinishedMovementListener, ContactLi
 	public void finishedMovement() {
 		System.out.println("Finished in: " + timer.getHumanReadableTime());
 		soundManager.playVictory();
-		for(Thread t : threadList){
+		for(Thread t : threadList) {
 			t.interrupt();
 		}
 		System.exit(0);

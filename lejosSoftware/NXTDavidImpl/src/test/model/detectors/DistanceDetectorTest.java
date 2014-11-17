@@ -79,7 +79,17 @@ public class DistanceDetectorTest
     {
         Assert.assertEquals(false, testDetector.getListeners().size() > 0);
         testDetector.registerListener(listener);
+
         Assert.assertTrue(testDetector.getListeners().size() > 0);
+        System.out.println("DistanceDetectorTest.testRegisterListener: \n\t" +
+                testDetector.getListeners().get(0).getClass().getName());
+
+        Assert.assertTrue(listener.getClass().asSubclass(DistanceListener.class).isAnonymousClass());
+
+//        Assert.assertTrue(testDetector.getListeners().get(0)
+//                .getClass().isInterface());
+
+//        Assert.assertTrue("There should be equivalent types.", listener.getClass() == (DistanceListener.class));
     }
 
     /**
