@@ -12,6 +12,8 @@ public class LineDetector implements Runnable{
 
 	private LightSensor sensor;
 	private List<LineListener> listeners;
+	//Good board: 150, bad board: 200
+	private final int LINE_THRESHOLD = 200;
 	
 	public LineDetector() {
 		sensor = new LightSensor(SensorPort.S2, true);
@@ -22,10 +24,11 @@ public class LineDetector implements Runnable{
 	@Override
 	public void run() {
 		while(!Thread.interrupted()){
-			if(sensor.getLightValue() < 150){
+			//RConsole.println("Light value: " + sensor.getLightValue());
+			if(sensor.getLightValue() < LINE_THRESHOLD){
 				RConsole.println("about to notify light listeners");
 				this.notifyLineDetected();
-				while(sensor.getLightValue() < 150){
+				while(sensor.getLightValue() < LINE_THRESHOLD){
 					Thread.yield();
 				}
 			}
