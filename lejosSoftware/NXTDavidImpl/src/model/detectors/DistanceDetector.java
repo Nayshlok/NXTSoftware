@@ -1,11 +1,10 @@
 package model.detectors;
-import java.util.ArrayList;
-import java.util.List;
-
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.comm.RConsole;
 import model.listeners.DistanceListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DistanceDetector implements Runnable{
@@ -17,7 +16,6 @@ public class DistanceDetector implements Runnable{
 		sensor = new UltrasonicSensor(SensorPort.S3);
 		listeners = new ArrayList<DistanceListener>();
 	}
-	
 	@Override
 	public void run() {
 		while(!Thread.interrupted()){
