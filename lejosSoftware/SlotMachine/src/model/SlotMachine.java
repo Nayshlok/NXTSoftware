@@ -25,7 +25,7 @@ public class SlotMachine
             ReturnSingleCoin, ReturnJackpot, ReturnNothing
         }
 
-        // Will decide what action to take based on calculated probability
+        // calculate the probability
         private ActionToTake calculate()
         {
             double v = Math.random() * 10 + 1;
@@ -36,5 +36,11 @@ public class SlotMachine
             else return ActionToTake.ReturnNothing;
         }
 
+        // Will decide what action to take based on calculated probability
+        public void decide()
+        {
+            // calculate the action
+            // fire the notice event (notify relevant parties)
+        }
     }
 }
