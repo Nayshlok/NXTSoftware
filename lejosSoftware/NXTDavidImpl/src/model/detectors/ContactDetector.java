@@ -18,6 +18,9 @@ public class ContactDetector implements Runnable{
 		listeners = new ArrayList<ContactListener>();
 	}
 	
+	/* (non-Javadoc)
+	 * @see model.detectors.ContactInterface#run()
+	 */
 	@Override
 	public void run(){
 		while(!Thread.interrupted()){

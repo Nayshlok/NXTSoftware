@@ -32,18 +32,6 @@ public class LineDetector implements Runnable{
 					Thread.yield();
 				}
 			}
-//			while(sensor.getLightValue() > 80){
-//				Thread.yield();
-//			}
-//			RConsole.println("Line: " + sensor.getLightValue());
-//			this.notifyLineDetected();
-//			Sound.playNote(Sound.FLUTE, 1800, 500);
-//			while(sensor.getLightValue() > 80){
-//				RConsole.println("Stuck in second light loop");
-//				Thread.yield();
-//			}
-//			Sound.playNote(Sound.PIANO, 800, 500);
-//			System.out.println("past line detection");
 		}
 	}
 	

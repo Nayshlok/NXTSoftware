@@ -60,6 +60,6 @@ public class FauxDistanceDetector implements Runnable
                 this.notifyNearObject(rangeCheck);
             }
         }
-        System.out.printf("The DistanceDetector Thread (%s) was interrupted\n", Thread.currentThread());
+        System.out.println("The DistanceDetector Thread "+ Thread.currentThread() + "was interrupted\n");
     }
 }
