@@ -20,4 +20,11 @@
 		<nature>org.lejos.nxt.ldt.leJOSNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>slotSrc</name>
+			<type>2</type>
+			<location>C:/Users/David Borland/Documents/GitHub/NXTSoftware/lejosSoftware/SlotMachine/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -20,10 +20,4 @@ public class CoinBin // Coin receptacle
         // Rotate the motor clockwise a full rotation, spilling all the coins
         // Subtract all the coin from the bank
     }
-
-    void dumpOne()
-    {
-        // Rotate the motor clockwise a minute degree, spill a single coin
-        // Subtract one coin from the bank
-    }
 }
