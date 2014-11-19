@@ -11,16 +11,12 @@ public class SlotMachine
         // Create the following:
             // Lever, which is composed of a touch sensor and event trigger
             // Coin (touch) Sensor, that notifies on coin insertion
-        // There is a button press that determines if the USER will play
-            // if user is playing
-            // Decider, which decides how many coins are dumped based on the returned P-value
-        // otherwise the user is not playing and we wait for the next user
     }
 
     public void startGame()
     {
-        // Wait forever for button press
         // Prompt the user
+        // Wait forever for button press
         // On button press, initiate game logic:
             // Link listeners
             // Run new threads listener
