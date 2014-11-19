@@ -7,12 +7,21 @@ import model.event.EventListenerList;
  * Created by Stephen on 11/18/2014.
  * In project: NXTSoftware
  */
-public class Lever implements EventListener
+public class Lever implements EventListener, Runnable
 {
     EventListenerList listenerList;
+    Thread changeChecker;
 
     // Await TouchSensor change
     // Fire notice event to listeners
+
+    @Override
+    public void run()
+    {
+        // Instantiate thread
+            // Detect changes
+            // fire event
+    }
 
     public void detectChange()
     {

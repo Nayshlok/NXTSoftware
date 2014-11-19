@@ -6,7 +6,7 @@ import lejos.nxt.Motor;
  * Created by Stephen on 11/19/2014.
  * In project: NXTSoftware
  */
-public class CoinBin
+public class CoinBin // Coin receptacle
 {
     Motor forRotation;
 

@@ -19,9 +19,12 @@ public class SlotMachine
 
     public void startGame()
     {
-        // Wire button press to playability
-        // Print the screen prompt
-        // On button press, initiate game logic
+        // Wait forever for button press
+        // Prompt the user
+        // On button press, initiate game logic:
+            // Link listeners
+            // Run new threads listener
+        // Yield the thread
     }
 
     private static class Decider
