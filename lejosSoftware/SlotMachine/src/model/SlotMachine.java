@@ -35,8 +35,8 @@ public class SlotMachine
         // calculate the probability
         private ActionToTake calculate()
         {
-            double v = Math.random() * 10 + 1;
-            int determinant = ( (int) Math.floor(v) );
+            double v = Math.random() * 10;
+            int determinant = ( (int) Math.floor(v) ) + 1;
 
             if ( determinant < 4 ) return ActionToTake.ReturnSingleCoin;
             else if ( determinant > 3 && determinant < 5 ) return ActionToTake.ReturnJackpot;
