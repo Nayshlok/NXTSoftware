@@ -9,4 +9,5 @@ public interface EventListener
     /**
      * The defacto that all listeners must implement
      */
+    void fireEvent();
 }
