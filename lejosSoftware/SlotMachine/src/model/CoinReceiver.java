@@ -1,9 +1,11 @@
 package model;
 
-public class CoinReceiver {
+import model.listeners.ReceiverListener;
+
+public class CoinReceiver implements ReceiverListener{
 
 	/*
-	 * Told by slot Machine to return coin or deposit coin
+	 * Listen for events to return the coin or deposit coins
 	 */
 	
 	public void returnCoin(){
@@ -12,7 +14,8 @@ public class CoinReceiver {
 		 */
 	}
 	
-	public void depositCoin(){
+	@Override
+	public void loseCoin() {
 		/*
 		 * Dump coin into bin
 		 */

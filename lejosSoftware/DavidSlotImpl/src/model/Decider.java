@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lejos.nxt.LCD;
 import lejos.nxt.comm.RConsole;
 import model.listeners.CoinListener;
 import model.listeners.ContactListener;
@@ -28,6 +29,9 @@ public class Decider implements ContactListener, LineListener, CoinListener{
             double v = Math.random() * 10;
             int determinant = ( (int) Math.floor(v) ) + 1;
 
+            LCD.clear();
+            LCD.drawInt(determinant, 10, 10);
+            
             if ( determinant < 4 ) return ActionToTake.ReturnSingleCoin;
             else if ( determinant > 3 && determinant < 5 ) return ActionToTake.ReturnJackpot;
             else return ActionToTake.ReturnNothing;

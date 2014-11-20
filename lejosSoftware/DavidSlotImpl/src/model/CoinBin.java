@@ -58,4 +58,8 @@ public class CoinBin implements JackpotListener, DepositListener// Coin receptac
 			l.emptyBank();
 		}
 	}
+	
+	public int getCoins(){
+		return coins;
+	}
 }
