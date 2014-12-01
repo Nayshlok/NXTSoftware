@@ -5,6 +5,7 @@ import java.util.List;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.comm.RConsole;
+import lejos.util.Delay;
 import listener.LineListener;
 
 
@@ -17,17 +18,17 @@ public class LineDetector implements Runnable{
 	
 	public LineDetector() {
 		sensor = new LightSensor(SensorPort.S2, true);
-		sensor.calibrateLow();
-		lineThreshold = sensor.getLightValue() + 20;
 		listeners = new ArrayList<LineListener>();
 	}
 
 	@Override
 	public void run() {
+		sensor.calibrateLow();
+		lineThreshold = sensor.getLightValue() + 10;
 		while(!Thread.interrupted()){
-			if(sensor.getLightValue() < lineThreshold){
+			if(sensor.getLightValue() > lineThreshold){
 				this.notifyLineDetected();
-				while(sensor.getLightValue() < lineThreshold){
+				while(sensor.getLightValue() > lineThreshold){
 					Thread.yield();
 				}
 			}

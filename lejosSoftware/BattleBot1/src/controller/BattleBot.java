@@ -1,8 +1,11 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.Driver.Direction;
+import lejos.nxt.Motor;
+import lejos.nxt.comm.RConsole;
 import lejos.util.Delay;
 import listener.DistanceListener;
 import listener.LineListener;
@@ -34,16 +37,18 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 		line.registerListener(this);
 		rotation.registerListener(this);
 		
+		threadList = new ArrayList<Thread>();
 		threadList.add(new Thread(line, "LineThread"));
 		threadList.add(new Thread(rotation, "RotationThread"));
+		threadList.add(new Thread(distance, "DistanceThread"));
 	}
 	
 	public void start() {
 		for(Thread t : threadList){
 			t.start();
 		}
-		
-		driver.turnRight();
+		state = BattleState.SEARCHING;
+		driver.turnLeft();
 		
 		while(true){
 			Thread.yield();
@@ -52,25 +57,25 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 
 	@Override
 	public void reachedFullCircle() {
-		if(state == BattleState.RETURNING){
-			driver.turnRight();
+		RConsole.println("Rotation event");
+		if(state == BattleState.RETURNING || state == BattleState.FLEEING){
 			state = BattleState.SEARCHING;
+			driver.turnRight();
 		}
 		
 	}
 
 	@Override
 	public void objectDetected(int distance) {
-		if(distance < 20 && state != BattleState.FLEEING){
+		if(distance < 30 && state != BattleState.FLEEING){
 			state = BattleState.FLEEING;
-			driver.turnLeft();
-			Delay.msDelay(200);
-			driver.forward();
+			weapon.beginAttack();
+			driver.backward();
 		}
-		else if(distance < 30 && state == BattleState.SEARCHING){
+		else if(distance < 40 && state == BattleState.SEARCHING){
 			weapon.beginAttack();
 		}
-		else{
+		else if(state != BattleState.RETURNING){
 			driver.forward();
 		}
 		
@@ -78,36 +83,36 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 
 	@Override
 	public void lineDetected() {
-		switch (driver.getMotorState()){
-		case BACKWARD:
+		if(state != BattleState.RETURNING){
+			Motor.B.resetTachoCount();
+			Motor.C.resetTachoCount();
+			switch (driver.getMotorState()){
+			case BACKWARD:
+				state = BattleState.RETURNING;
+				driver.turnLeft(60);
+				driver.forward(1);
+				break;
+			case FORWARD:
+				state = BattleState.RETURNING;
+				driver.backward(2);
+				driver.turnLeft(90);
+				break;
+			case LEFT:
+				driver.turnRight(90);
+				state = BattleState.RETURNING;
+				driver.forward();
+				break;
+			case RIGHT:
+				driver.turnLeft(90);
+				state = BattleState.RETURNING;
+				break;
+			default:
+				break;
+			
+			}
+			state = BattleState.SEARCHING;
 			driver.turnRight();
-			Delay.msDelay(200);
-			state = BattleState.RETURNING;
-			driver.forward();
-			break;
-		case FORWARD:
-			driver.turnRight();
-			Delay.msDelay(200);
-			state = BattleState.RETURNING;
-			driver.backward();
-			break;
-		case LEFT:
-			driver.turnRight();
-			Delay.msDelay(200);
-			state = BattleState.RETURNING;
-			driver.forward();
-			break;
-		case RIGHT:
-			driver.turnLeft();
-			Delay.msDelay(200);
-			state = BattleState.RETURNING;
-			driver.forward();
-			break;
-		default:
-			break;
-		
 		}
-		
 	}
 
 }

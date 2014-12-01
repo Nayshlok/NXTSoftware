@@ -12,7 +12,7 @@ public class RotationDetector implements Runnable{
 
 	private RegulatedMotor leftSide, rightSide;
 	private List<RotationListener> listeners;
-	public static final int DEGREE_FOR_REVOLUTION = 1090;
+	public static final int DEGREE_FOR_REVOLUTION = 500;
 	
 	
 	public RotationDetector(){
@@ -29,7 +29,6 @@ public class RotationDetector implements Runnable{
 	public void run() {
 		while(!Thread.interrupted()){
 			int leftTach = leftSide.getTachoCount();
-			RConsole.println(leftTach + " degrees");
 			if(leftTach % DEGREE_FOR_REVOLUTION >= DEGREE_FOR_REVOLUTION - 10){
 				
 				this.notifyFullRevolution();

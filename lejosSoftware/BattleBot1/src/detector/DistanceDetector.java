@@ -1,6 +1,7 @@
 package detector;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.RConsole;
 import listener.DistanceListener;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class DistanceDetector implements Runnable{
 			int[] distance = new int[8];
 			int readIn = sensor.getDistances(distance);
 			int validDistance = distance[0];
-			if(validDistance < 50 && validDistance != 0){
+			if(validDistance < 70 && validDistance != 0){
 				this.notifyNearObject(validDistance);
 			}
 		}

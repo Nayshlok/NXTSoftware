@@ -14,6 +14,7 @@ public class Driver {
 	private List<DriverListener> driveListeners;
 	private MotorState motorState;
 	private boolean finishedRotation;
+	private final int DEGREE_FOR_REVOLUTION = 1090;
 	
 	public enum Direction{
 		FORWARD, BACKWARD, LEFT, RIGHT;
@@ -26,8 +27,8 @@ public class Driver {
 	public Driver(){
 		leftWheel = Motor.B;
 		rightWheel = Motor.C;
-		leftWheel.setSpeed((int) (leftWheel.getMaxSpeed()/2));
-		rightWheel.setSpeed((int) (rightWheel.getMaxSpeed()/2));
+		leftWheel.setSpeed((int) (360));
+		rightWheel.setSpeed((int) (360));
 		driveListeners = new ArrayList<DriverListener>();
 	}
 	
@@ -71,6 +72,8 @@ public class Driver {
 	}
 	
 	public void turnRight(){
+		leftWheel.setSpeed(360);
+		rightWheel.setSpeed(360);
 		motorState = MotorState.RIGHT;
 		leftWheel.forward();
 		rightWheel.backward();
@@ -79,7 +82,7 @@ public class Driver {
 	
 	public void turnRight(int degreeTurn){
 		motorState = MotorState.RIGHT;
-		int totalAngle = RotationDetector.DEGREE_FOR_REVOLUTION;
+		int totalAngle = DEGREE_FOR_REVOLUTION;
     	int angle = (totalAngle/360) * degreeTurn;
     	
         leftWheel.rotate(angle, true);
@@ -87,12 +90,23 @@ public class Driver {
 	}
 
 	public void turnLeft(){
+		leftWheel.setSpeed(360);
+		rightWheel.setSpeed(360);
 		motorState = MotorState.LEFT;
 		leftWheel.backward();
 		rightWheel.forward();
 		notifyStop();
 	}
 
+	public void turnLeft(int degreeTurn){
+		motorState = MotorState.LEFT;
+		int totalAngle = DEGREE_FOR_REVOLUTION;
+    	int angle = (totalAngle/360) * degreeTurn;
+    	
+        leftWheel.rotate(-angle, true);
+        rightWheel.rotate(angle);
+	}
+	
 	public MotorState getMotorState(){
 		return motorState;
 	}
