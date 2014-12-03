@@ -37,7 +37,6 @@ public class Driver {
 	}
 	
 	public void forward(){
-		System.out.println("forward");
 		motorState = MotorState.FORWARD;
 		leftWheel.forward();
 		rightWheel.forward();

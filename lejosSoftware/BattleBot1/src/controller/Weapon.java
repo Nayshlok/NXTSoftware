@@ -10,7 +10,6 @@ public class Weapon {
 	
 	public void beginAttack(){
 		if(!attacking){
-			RConsole.println("Begin attack.");
 			Thread attackThread = new Thread(new WeaponAttack());
 			attackThread.start();
 		}
@@ -25,7 +24,6 @@ public class Weapon {
 			Delay.msDelay(450);
 			withdrawWhip();
 			attacking = false;
-			RConsole.println("Attack concluded");
 		}
 
 		/**

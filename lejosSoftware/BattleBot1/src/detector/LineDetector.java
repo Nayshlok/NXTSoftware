@@ -24,7 +24,8 @@ public class LineDetector implements Runnable{
 	@Override
 	public void run() {
 		sensor.calibrateLow();
-		lineThreshold = sensor.getLightValue() + 10;
+		lineThreshold = sensor.getLightValue() + 5;
+		RConsole.println("threshold is " + lineThreshold);
 		while(!Thread.interrupted()){
 			if(sensor.getLightValue() > lineThreshold){
 				this.notifyLineDetected();

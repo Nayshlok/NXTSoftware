@@ -12,7 +12,7 @@ public class RotationDetector implements Runnable{
 
 	private RegulatedMotor leftSide, rightSide;
 	private List<RotationListener> listeners;
-	public static final int DEGREE_FOR_REVOLUTION = 500;
+	public static final int DEGREE_FOR_REVOLUTION = 360;
 	
 	
 	public RotationDetector(){
@@ -35,7 +35,7 @@ public class RotationDetector implements Runnable{
 			}
 		}
 	}
-	
+		
 	public void notifyFullRevolution(){
 		for(RotationListener l : listeners){
 			l.reachedFullCircle();

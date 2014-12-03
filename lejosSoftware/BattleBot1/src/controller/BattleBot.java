@@ -21,6 +21,7 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 	private List<Thread> threadList;
 	private BattleState state;
 	private Weapon weapon;
+	private boolean attacking;
 	
 	public enum BattleState{
 		SEARCHING, FLEEING, RETURNING
@@ -59,6 +60,7 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 	public void reachedFullCircle() {
 		RConsole.println("Rotation event");
 		if(state == BattleState.RETURNING || state == BattleState.FLEEING){
+			RConsole.println("rotation event, return to search");
 			state = BattleState.SEARCHING;
 			driver.turnRight();
 		}
@@ -67,51 +69,56 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 
 	@Override
 	public void objectDetected(int distance) {
-		if(distance < 30 && state != BattleState.FLEEING){
+		if(distance < 30 && state == BattleState.SEARCHING ){
 			state = BattleState.FLEEING;
-			weapon.beginAttack();
+			Motor.B.resetTachoCount();
+			Motor.C.resetTachoCount();
 			driver.backward();
 		}
-		else if(distance < 40 && state == BattleState.SEARCHING){
+		else if(state == BattleState.SEARCHING){
+			RConsole.println("Current state: " + state + ", driving forward");
+			driver.forward();
+		}
+		
+		if(distance < 40){
+			attacking = true;
 			weapon.beginAttack();
 		}
-		else if(state != BattleState.RETURNING){
-			driver.forward();
+		else if(distance > 40 && attacking && state == BattleState.SEARCHING){
+			attacking = false;
+			driver.turnLeft(40);
+			driver.turnRight();
 		}
 		
 	}
 
 	@Override
 	public void lineDetected() {
+		RConsole.println("Line detected, current State: " + state);
 		if(state != BattleState.RETURNING){
+			RConsole.println("Drive state " + driver.getMotorState());
 			Motor.B.resetTachoCount();
 			Motor.C.resetTachoCount();
+			state = BattleState.RETURNING;
 			switch (driver.getMotorState()){
 			case BACKWARD:
-				state = BattleState.RETURNING;
-				driver.turnLeft(60);
-				driver.forward(1);
+				driver.forward();
 				break;
 			case FORWARD:
-				state = BattleState.RETURNING;
-				driver.backward(2);
-				driver.turnLeft(90);
+				driver.backward();
 				break;
 			case LEFT:
 				driver.turnRight(90);
-				state = BattleState.RETURNING;
 				driver.forward();
 				break;
 			case RIGHT:
 				driver.turnLeft(90);
-				state = BattleState.RETURNING;
+				driver.forward();
 				break;
 			default:
 				break;
 			
 			}
-			state = BattleState.SEARCHING;
-			driver.turnRight();
 		}
 	}
 
