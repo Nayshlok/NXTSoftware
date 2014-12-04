@@ -20,6 +20,7 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 	private Driver driver;
 	private List<Thread> threadList;
 	private BattleState state;
+	private RotationDetector rotation;
 	private Weapon weapon;
 	private boolean attacking;
 	
@@ -32,7 +33,7 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 		driver = new Driver();
 		DistanceDetector distance = new DistanceDetector();
 		LineDetector line = new LineDetector();
-		RotationDetector rotation = new RotationDetector();
+		rotation = new RotationDetector();
 		
 		distance.registerListener(this);
 		line.registerListener(this);
@@ -48,6 +49,7 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 		for(Thread t : threadList){
 			t.start();
 		}
+		RConsole.println("Set to search from beginning");
 		state = BattleState.SEARCHING;
 		driver.turnLeft();
 		
@@ -58,7 +60,6 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 
 	@Override
 	public void reachedFullCircle() {
-		RConsole.println("Rotation event");
 		if(state == BattleState.RETURNING || state == BattleState.FLEEING){
 			RConsole.println("rotation event, return to search");
 			state = BattleState.SEARCHING;
@@ -70,13 +71,12 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 	@Override
 	public void objectDetected(int distance) {
 		if(distance < 30 && state == BattleState.SEARCHING ){
-			state = BattleState.FLEEING;
-			Motor.B.resetTachoCount();
-			Motor.C.resetTachoCount();
-			driver.backward();
+//			state = BattleState.FLEEING;
+//			RConsole.println("enemy too close. State: " + state);
+//			rotation.resetRotation();
+//			driver.backward();
 		}
 		else if(state == BattleState.SEARCHING){
-			RConsole.println("Current state: " + state + ", driving forward");
 			driver.forward();
 		}
 		
@@ -84,11 +84,13 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 			attacking = true;
 			weapon.beginAttack();
 		}
-		else if(distance > 40 && attacking && state == BattleState.SEARCHING){
-			attacking = false;
-			driver.turnLeft(40);
-			driver.turnRight();
-		}
+//		else if(distance > 60 && attacking && state == BattleState.FLEEING){
+//			RConsole.println("state changed to searching in chase part of object detected.");
+//			state = BattleState.SEARCHING;
+//			attacking = false;
+//			driver.turnLeft(40);
+//			driver.turnRight();
+//		}
 		
 	}
 
@@ -97,9 +99,9 @@ public class BattleBot implements LineListener, DistanceListener, RotationListen
 		RConsole.println("Line detected, current State: " + state);
 		if(state != BattleState.RETURNING){
 			RConsole.println("Drive state " + driver.getMotorState());
-			Motor.B.resetTachoCount();
-			Motor.C.resetTachoCount();
+			rotation.resetRotation();
 			state = BattleState.RETURNING;
+			RConsole.println("line detected state is now: " + state);
 			switch (driver.getMotorState()){
 			case BACKWARD:
 				driver.forward();

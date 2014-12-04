@@ -12,8 +12,8 @@ public class RotationDetector implements Runnable{
 
 	private RegulatedMotor leftSide, rightSide;
 	private List<RotationListener> listeners;
-	public static final int DEGREE_FOR_REVOLUTION = 360;
-	
+	public static final int DEGREE_FOR_REVOLUTION = 720;
+	private boolean firedEvent = false;
 	
 	public RotationDetector(){
 		leftSide = Motor.B;
@@ -29,13 +29,19 @@ public class RotationDetector implements Runnable{
 	public void run() {
 		while(!Thread.interrupted()){
 			int leftTach = leftSide.getTachoCount();
-			if(leftTach % DEGREE_FOR_REVOLUTION >= DEGREE_FOR_REVOLUTION - 10){
-				
+			if(Math.abs(leftTach) >= DEGREE_FOR_REVOLUTION && !firedEvent){
+				firedEvent = true;
 				this.notifyFullRevolution();
 			}
 		}
 	}
 		
+	public void resetRotation(){
+		leftSide.resetTachoCount();
+		rightSide.resetTachoCount();
+		firedEvent = false;
+	}
+	
 	public void notifyFullRevolution(){
 		for(RotationListener l : listeners){
 			l.reachedFullCircle();
